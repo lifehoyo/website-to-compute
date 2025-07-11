@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Loading...</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #tap-screen {
+      display: block;
+      padding-top: 150px;
+    }
+
+    #main {
+      display: none;
+      padding-top: 100px;
+    }
+
+    h1 {
+      color: red;
+      font-size: 2.5em;
+      animation: blink 0.7s infinite;
+    }
+
+    #countdown {
+      font-size: 2em;
+      color: yellow;
+      margin-top: 20px;
+    }
+
+    #pay-btn {
+      margin-top: 30px;
+      padding: 15px 25px;
+      font-size: 1em;
+      background-color: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="tap-screen">
+    <p>🔒 Sistem sedang dimuat...<br><br><strong>Tap layar untuk melanjutkan</strong></p>
+  </div>
+
+  <div id="main">
+    <h1>😂 YOU ARE AN IDIOT 😂</h1>
+    <p id="countdown">Menghapus semua data dalam: <span id="timer">99</span> detik!</p>
+    <button id="pay-btn" onclick="payToEscape()">Bayar 1 Es Teh untuk Bebas</button>
+
+    <!-- Suara utama -->
+    <audio id="idiotSound" autoplay loop>
+      <source src="https://www.myinstants.com/media/sounds/you-are-an-idiot.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Suara emak -->
+    <audio id="emakSound" autoplay loop>
+      <source src="https://www.myinstants.com/media/sounds/marah-marah.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Jumpscare (nanti muncul) -->
+    <audio id="jumpscare" preload="auto">
+      <source src="https://www.myinstants.com/media/sounds/fire.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <script>
+    const tapScreen = document.getElementById("tap-screen");
+    const mainContent = document.getElementById("main");
+    const idiotSound = document.getElementById("idiotSound");
+    const emakSound = document.getElementById("emakSound");
+    const jumpscare = document.getElementById("jumpscare");
+    const timerText = document.getElementById("timer");
+
+    document.body.addEventListener("click", function () {
+      tapScreen.style.display = "none";
+      mainContent.style.display = "block";
+
+      // Fullscreen try (won't always work)
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+
+      // Play all sounds
+      idiotSound.play();
+      emakSound.play();
+
+      // Timer palsu reset
+      let count = 99;
+      setInterval(() => {
+        timerText.textContent = count;
+        count--;
+        if (count <= 0) count = 99;
+      }, 1000);
+
+      // Goyang layar
+      setInterval(() => {
+        document.body.style.marginLeft = (Math.random() * 10 - 5) + "px";
+        document.body.style.marginTop = (Math.random() * 10 - 5) + "px";
+      }, 100);
+
+      // Popup spam (max dibatasi browser)
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          window.open(location.href, "_blank", "width=300,height=200");
+        }, i * 600);
+      }
+
+      // Jumpscare setelah 15 detik
+      setTimeout(() => {
+        jumpscare.play();
+        alert("🔥 Perangkat Overheat! Segera Matikan!");
+      }, 15000);
+
+    }, { once: true });
+
+    // Tombol prank
+    function payToEscape() {
+      alert("💸 Transfer belum masuk! Tetap terkunci 😈");
+    }
+  </script>
+</body>
+</html>
